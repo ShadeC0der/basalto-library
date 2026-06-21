@@ -1,6 +1,6 @@
 [package]
-name = "basalto-cmds"
-version = "0.0.1"
+name = "basalto-library"
+version = "0.1.1"
 edition = "2024"
 
 [lib]
@@ -8,3 +8,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 basalto-shared = { git = "ssh://git@github.com/ShadeC0der/basalto-shared.git", tag = "v1.0.0" }
+dirs = "6"
+serde = { version = "1", features = ["derive"] }
+toml = "1"
