@@ -1,5 +1,6 @@
 use basalto_shared::BasaltoPlugin;
 mod commands;
+#[allow(dead_code)]
 mod config;
 
 struct BasaltoLibrary;
@@ -17,8 +18,8 @@ impl BasaltoPlugin for BasaltoLibrary {
 
     fn execute_command(&self, command: &str, args: &[&str]) {
         match command {
-            "show" => commands::show(args),
-            "add" => commands::add(args),
+            "add" => commands::add::run(args),
+            "show" => commands::show::run(args),
             _ => {}
         }
     }
