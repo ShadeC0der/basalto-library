@@ -5,7 +5,7 @@ pub fn run(args: &[&str]) {
      */
 
     let home = dirs::home_dir().unwrap();
-    let lib_path = format!("{}/.basalto/cache/library", home.to_str().unwrap());
+    let lib_path = crate::index::lib_path();
 
     if args.is_empty() {
         println!("biblioteca");

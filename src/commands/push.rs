@@ -16,7 +16,7 @@ pub fn run(_args: &[&str]) {
     }
 
     let home = dirs::home_dir().unwrap();
-    let lib_dir = format!("{}/.basalto/cache/library", home.to_str().unwrap());
+    let lib_dir = crate::index::lib_path();
     let git_dir = format!("{}/.git", lib_dir);
 
     if !std::path::Path::new(&git_dir).exists() {

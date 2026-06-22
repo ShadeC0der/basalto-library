@@ -70,9 +70,31 @@ fn guardar(index: &LibraryIndex) {
     std::fs::write(ruta_index(), toml::to_string(index).unwrap()).unwrap();
 }
 
+pub fn lib_path() -> String {
+    let home = dirs::home_dir().unwrap();
+    let active = active_library();
+    format!("{}/.basalto/cache/libraries/{}", home.to_str().unwrap(), active)
+}
+
 fn ruta_index() -> String {
     let home = dirs::home_dir().unwrap();
-    format!("{}/.basalto/library.index.toml", home.to_str().unwrap())
+    let active = active_library();
+    format!("{}/.basalto/{}.index.toml", home.to_str().unwrap(), active)
+}
+
+fn active_library() -> String {
+    let home = dirs::home_dir().unwrap();
+    let path = format!("{}/.basalto/config.toml", home.to_str().unwrap());
+    std::fs::read_to_string(path)
+        .ok()
+        .and_then(|c| {
+            // Parse only what we need: active = "..."
+            c.lines()
+                .find(|l| l.trim_start().starts_with("active = "))
+                .and_then(|l| l.split('"').nth(1))
+                .map(|s| s.to_string())
+        })
+        .unwrap_or_else(|| "main".to_string())
 }
 
 fn fecha_hoy() -> String {
