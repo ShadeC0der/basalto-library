@@ -11,3 +11,4 @@ basalto-shared = { git = "ssh://git@github.com/ShadeC0der/basalto-shared.git", t
 dirs = "6"
 serde = { version = "1", features = ["derive"] }
 toml = "1"
+dialoguer = "0.11"

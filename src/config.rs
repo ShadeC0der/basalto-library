@@ -7,25 +7,39 @@ pub struct LibraryConfig {
 }
 
 #[derive(Deserialize)]
-struct Config {
-    library: LibraryConfig,
+pub struct EditorsConfig {
+    pub available: Vec<String>,
 }
 
-pub fn read() -> LibraryConfig {
-    /* Resumen de read()
-     * Construye la ruta hacia ~/.basalto/config.toml
-     * Lee el archivo como texto plano
-     * Deserializa con serde el bloque [library]
-     * Retorna url y branch de la biblioteca personal
-     */
+#[derive(Deserialize)]
+struct Config {
+    library: LibraryConfig,
+    editors: EditorsConfig,
+}
 
+pub fn read_library() -> LibraryConfig {
+    /* Resumen de read_library()
+     * Lee config.toml y retorna la sección [library]
+     */
+    read_config().library
+}
+
+pub fn read_editors() -> EditorsConfig {
+    /* Resumen de read_editors()
+     * Lee config.toml y retorna la sección [editors]
+     */
+    read_config().editors
+}
+
+fn read_config() -> Config {
+    /* Resumen de read_config()
+     * Construye la ruta hacia ~/.basalto/config.toml
+     * Lee el archivo y lo deserializa completo
+     */
     let home = dirs::home_dir().unwrap();
     let path = format!("{}/.basalto/config.toml", home.to_str().unwrap());
     let text = std::fs::read_to_string(&path)
         .unwrap_or_else(|_| panic!("No se encontró config.toml en {}", path));
 
-    let config: Config =
-        toml::from_str(&text).unwrap_or_else(|_| panic!("Error al leer [library] en config.toml"));
-
-    config.library
+    toml::from_str(&text).unwrap_or_else(|_| panic!("Error al leer config.toml"))
 }
