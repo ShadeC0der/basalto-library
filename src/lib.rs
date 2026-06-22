@@ -2,6 +2,8 @@ use basalto_shared::BasaltoPlugin;
 mod commands;
 mod config;
 
+basalto_shared::export_version!();
+
 struct BasaltoLibrary;
 
 impl BasaltoPlugin for BasaltoLibrary {
