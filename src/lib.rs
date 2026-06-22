@@ -40,9 +40,14 @@ impl BasaltoPlugin for BasaltoLibrary {
                 ],
             },
             CommandHelp {
-                name: "edit <ruta>",
+                name: "edit [ruta]",
                 description: "Abre un archivo con el editor configurado",
-                flags: &[],
+                flags: &[
+                    FlagHelp {
+                        name: "<ruta>",
+                        description: "Archivo a editar (sin ruta muestra selector)",
+                    },
+                ],
             },
             CommandHelp {
                 name: "push",
