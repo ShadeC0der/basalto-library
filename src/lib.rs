@@ -20,9 +20,14 @@ impl BasaltoPlugin for BasaltoLibrary {
     fn command_help(&self) -> &'static [CommandHelp] {
         &[
             CommandHelp {
-                name: "add <ruta>",
-                description: "Agrega un archivo a la biblioteca",
-                flags: &[],
+                name: "add [ruta]",
+                description: "Crea un archivo o carpeta en la biblioteca",
+                flags: &[
+                    FlagHelp {
+                        name: "<ruta>",
+                        description: "Ruta del archivo (termina en / para crear carpeta)",
+                    },
+                ],
             },
             CommandHelp {
                 name: "show",
