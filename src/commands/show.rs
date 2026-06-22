@@ -9,7 +9,7 @@ pub fn run(args: &[&str]) {
 
     if args.is_empty() {
         println!("biblioteca");
-        show_tree(&lib_path, 0);
+        show_tree(&lib_path, "");
         return;
     }
 
@@ -25,12 +25,12 @@ pub fn run(args: &[&str]) {
     println!("{}", content);
 }
 
-fn show_tree(path: &str, depth: usize) {
-    /* Resumen de show_tree(path, depth)
-     * Lee el contenido del directorio actual
-     * Ordena las entradas por nombre
-     * Imprime cada entrada con indentacion segun la profundidad
-     * Si la entrada es un directorio se llama recursivamente
+fn show_tree(path: &str, prefix: &str) {
+    /* Resumen de show_tree(path, prefix)
+     * Lee el contenido del directorio actual y ordena por nombre
+     * El prefix acumula los caracteres de continuacion de niveles superiores
+     * Usa └── para el ultimo elemento y ├── para los demas
+     * Pasa "    " como continuacion si el padre fue ultimo, "│   " si no lo fue
      */
 
     let mut entries: Vec<_> = std::fs::read_dir(path)
@@ -40,20 +40,24 @@ fn show_tree(path: &str, depth: usize) {
 
     entries.sort_by_key(|e| e.file_name());
 
-    for entry in entries {
+    let total = entries.len();
+    for (i, entry) in entries.iter().enumerate() {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         let is_dir = entry.file_type().unwrap().is_dir();
-        let indent = "│   ".repeat(depth);
-        let display = if is_dir {
-            format!("{}/", name)
-        } else {
-            name.to_string()
-        };
-        println!("{}├── {}", indent, display);
+        let is_last = i + 1 == total;
+        let connector = if is_last { "└──" } else { "├──" };
+        let display = if is_dir { format!("{}/", name) } else { name.to_string() };
+
+        println!("{}{} {}", prefix, connector, display);
 
         if is_dir {
-            show_tree(&entry.path().to_string_lossy(), depth + 1);
+            let child_prefix = if is_last {
+                format!("{}    ", prefix)
+            } else {
+                format!("{}│   ", prefix)
+            };
+            show_tree(&entry.path().to_string_lossy(), &child_prefix);
         }
     }
 }
