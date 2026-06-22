@@ -10,7 +10,7 @@ impl BasaltoPlugin for BasaltoLibrary {
     }
 
     fn plugin_commands(&self) -> &[&str] {
-        &["show", "add", "edit"]
+        &["show", "add", "edit", "push"]
     }
 
     fn on_load(&self) {}
@@ -20,6 +20,7 @@ impl BasaltoPlugin for BasaltoLibrary {
             "add" => commands::add::run(args),
             "show" => commands::show::run(args),
             "edit" => commands::edit::run(args),
+            "push" => commands::push::run(args),
             _ => {}
         }
     }
