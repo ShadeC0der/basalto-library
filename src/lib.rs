@@ -1,6 +1,7 @@
 use basalto_shared::{BasaltoPlugin, CommandHelp, FlagHelp};
 mod commands;
 mod config;
+pub mod index;
 
 basalto_shared::export_version!();
 

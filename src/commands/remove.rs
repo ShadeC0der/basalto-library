@@ -1,3 +1,4 @@
+use crate::index;
 use console::style;
 use dialoguer::{Confirm, Select};
 
@@ -57,6 +58,7 @@ pub fn run(args: &[&str]) {
         println!("{} '{}'", style("Carpeta eliminada:").red(), style(label).bold());
     } else {
         std::fs::remove_file(&target).unwrap();
+        index::eliminar(label);
         println!("{} '{}'", style("Archivo eliminado:").red(), style(label).bold());
     }
 }

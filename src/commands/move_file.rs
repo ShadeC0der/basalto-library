@@ -1,3 +1,4 @@
+use crate::index;
 use console::style;
 use dialoguer::{Input, Select};
 
@@ -68,6 +69,7 @@ pub fn run(args: &[&str]) {
     }
 
     std::fs::rename(&origen, &destino).unwrap();
+    index::renombrar(&origen_label, &destino_relativo);
     println!(
         "{} '{}' → '{}'",
         style("Movido:").green(),

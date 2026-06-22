@@ -1,4 +1,5 @@
 use crate::config;
+use crate::index;
 use console::style;
 use dialoguer::Select;
 
@@ -61,6 +62,9 @@ pub fn run(args: &[&str]) {
             .unwrap();
         editors.available[seleccion].clone()
     };
+
+    let ruta_relativa = file_path.trim_start_matches(&format!("{}/", lib_path)).to_string();
+    index::incrementar_usos(&ruta_relativa);
 
     std::process::Command::new(&editor)
         .arg(&file_path)
