@@ -12,7 +12,7 @@ impl BasaltoPlugin for BasaltoLibrary {
     }
 
     fn plugin_commands(&self) -> &[&str] {
-        &["show", "add", "edit", "push"]
+        &["show", "add", "edit", "remove", "move", "push"]
     }
 
     fn on_load(&self) {}
@@ -50,6 +50,30 @@ impl BasaltoPlugin for BasaltoLibrary {
                 ],
             },
             CommandHelp {
+                name: "remove [ruta]",
+                description: "Elimina un archivo o carpeta de la biblioteca",
+                flags: &[
+                    FlagHelp {
+                        name: "<ruta>",
+                        description: "Ruta a eliminar (sin ruta muestra selector)",
+                    },
+                ],
+            },
+            CommandHelp {
+                name: "move [origen] [destino]",
+                description: "Mueve o renombra un archivo en la biblioteca",
+                flags: &[
+                    FlagHelp {
+                        name: "<origen>",
+                        description: "Archivo a mover (sin argumento muestra selector)",
+                    },
+                    FlagHelp {
+                        name: "<destino>",
+                        description: "Nueva ruta del archivo",
+                    },
+                ],
+            },
+            CommandHelp {
                 name: "push",
                 description: "Publica los cambios al repositorio remoto",
                 flags: &[],
@@ -62,6 +86,8 @@ impl BasaltoPlugin for BasaltoLibrary {
             "add" => commands::add::run(args),
             "show" => commands::show::run(args),
             "edit" => commands::edit::run(args),
+            "remove" => commands::remove::run(args),
+            "move" => commands::move_file::run(args),
             "push" => commands::push::run(args),
             _ => {}
         }
